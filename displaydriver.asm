@@ -70,7 +70,7 @@ _GENERATE:
 
 	; The user actions must not take longer than the time to generate the bottom border at either 50Hz or 60Hz.
 	push	iy
-	CALL	AYFXPLAYER._FRAME			; (1-9 scanlines)
+	CALL	AYFX._FRAME					; (1-9 scanlines)
 	pop		iy
 
 	LD		IX,_GENERATE_VSYNC			; Set the display routine pointer to generate the VSync pulse next.

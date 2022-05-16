@@ -9,6 +9,13 @@ adda2hl:
 	inc		h
 	ret
 
+adda2de:
+	add		a,e
+	ld		e,a
+	ret		nc
+	inc		d
+	ret
+
 
 ; Gets a word from a table at offset in a, table base in hl
 ;
@@ -45,6 +52,17 @@ invertscreen:
 	inc		hl
 	dec		c
 	jr		nz,{--}
+	ret
+
+
+; in hl-> text to invert, b -> len
+;
+invert:
+	ld		a,(hl)
+	xor		128
+	ld		(hl),a
+	inc		hl
+	djnz	invert
 	ret
 
 

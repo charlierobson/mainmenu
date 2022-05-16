@@ -2,18 +2,17 @@
 ;
 .module MAINMENU
 
+SPACING .equ 2
+
 _run:
 	ld		hl,0
 	ld		(frames),hl
 
+	ld		hl,_t1
+	ld		b,3*32
+	call	invert
+
 _redraw:
-	; call	clearscreen
-
-	; ld		hl,_t0
-	; ld		de,dfile+1
-	; ld		bc,32
-	; ldir
-
 	call	_drawmenuitems
 	call	_invertRow
 
@@ -67,6 +66,14 @@ _nochangetext:
 
 
 _dorun:
+	ld		a,2
+	call	AYFX._PLAY
+	call	framesync
+	call	framesync
+	call	framesync
+	call	framesync
+	call	framesync
+
 	ld		a,(_listRow)
 	ld		hl,_fnList
 	call	tableget
@@ -106,7 +113,9 @@ _cursUp:
 	ld		a,(_listRow)
 	dec		a
 	ld		(_listRow),a
-	jp		_invertRow
+	call	_invertRow
+	ld		a,1
+	jp		AYFX._PLAY
 
 _cursDown:
 	ld		a,(_listRow)
@@ -120,13 +129,14 @@ _cursDown:
 	ld		a,(_listRow)
 	inc		a
 	ld		(_listRow),a
-	jp		_invertRow
-
+	call	_invertRow
+	ld		a,1
+	jp		AYFX._PLAY
 
 _invertRow:
 	ld		a,(_listRow)
-	ld		hl,dfile+1+1+2*33
-	ld		de,33
+	ld		hl,dfile+1+2+2*33
+	ld		de,33*SPACING
 	jr		{+}
 
 -:	add		hl,de
@@ -134,7 +144,7 @@ _invertRow:
 +:	and		a
 	jr		nz,{-}
 
-	ld		b,30
+	ld		b,28
 
 -:	ld		a,(hl)
 	xor		128
@@ -175,7 +185,26 @@ _nextline:
 	cp		$ff
 	ret		z
 
+	push	hl
+
+	ld		b,0
+	jr		_countdesc
+
+-:	inc		hl
+	inc		b
+_countdesc:						; b = count the number of characters in the description
+	ld		a,(hl)
+	cp		$19
+	jr		nz,{-}
+
+	pop		hl
 	push	de
+
+	ld		a,28
+	sub		b
+	srl		a
+	call	adda2de
+
 	jr		_printdesc
 
 -:	ld		(de),a
@@ -198,7 +227,7 @@ _printdesc:
 
 	pop		de
 	push	hl
-	ld		hl,33
+	ld		hl,33*SPACING
 	add		hl,de
 	ex		de,hl
 	pop		hl
@@ -245,10 +274,8 @@ _titletextlist:
 	.word	_t1,_t2,_t3
 
 			;--------========--------========
-_t0	.asc	" museum of computing games menu "
-
 _t1	.asc	"  fire/space/nl to run program  "
-_t2	.asc	" up/6, down/7 to select program "
+_t2	.asc	" up/7, down/6 to select program "
 _t3	.asc	" press reset to return to menu  "
 
 

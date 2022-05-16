@@ -1,4 +1,4 @@
-	.module AYFXPLAYER
+	.module AYFX
 
 ;---------------------------------------------------------------;
 ;                                                               ;
@@ -263,11 +263,4 @@ afxNseMix=$+1
 
 
 _soundbank:
-	.incbin	simple.afb
-
-; 1 - bellyplink
-; 2 - shortshot
-; 3 - bubblyriser
-; 4 - aliensneeze
-; 5 - bananaslip
-; 6 - smallexplo
+	.incbin	menu.afb

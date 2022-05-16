@@ -91,8 +91,8 @@ _line1:
 	ld		hl,$8000					; ascii to zeddy
 	call	TXT._transcodeAtoZ
 
-	ld		hl,AYFXPLAYER._soundbank
-	call	AYFXPLAYER._INIT
+	ld		hl,AYFX._soundbank
+	call	AYFX._INIT
 
 	; enable our custom display handler.
 	; runs input processing in the vertical sync and enables use of IY register.
@@ -107,7 +107,6 @@ _line1:
 
 
 	.include s_mainmenu.asm
-	.include s_instructions.asm
 
 	.include general.asm
 	.include txt.asm
@@ -121,6 +120,7 @@ dfile:
 	.byte	$76,$80,$80,$a8,$b4,$b2,$b5,$ba,$b9,$aa,$b7,$80,$ad,$ae,$b8,$b9,$b4,$b7,$be,$80,$b2,$ba,$b8,$aa,$ba,$b2,$80,$b2,$aa,$b3,$ba,$80,$80
 	.repeat 22
 	.byte	$76,$80,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$80
+;	.byte	$76,$80,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$08,$88,$88,$88,$88,$88,$88,$88,$88,$88,$88,$88,$88,$88,$88,$88,$80 ; for debugging
 	.loop
 	.byte	$76,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80,$80
 	.byte   $76
