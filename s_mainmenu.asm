@@ -105,30 +105,32 @@ ep_end:
 
 
 _cursUp:
-	ld		a,(_listRow)
-	and		a
-	ret		z
-
 	call	_invertRow
 	ld		a,(_listRow)
 	dec		a
-	ld		(_listRow),a
+	cp		$ff
+	jr		nz,{+}
+
+	ld		a,(_listCount)
+	dec		a
+
++:	ld		(_listRow),a
 	call	_invertRow
 	ld		a,1
 	jp		AYFX._PLAY
 
 _cursDown:
-	ld		a,(_listRow)
-	inc		a
-	ld		l,a
-	ld		a,(_listCount)
-	cp		l
-	ret		z
-
 	call	_invertRow
+	ld		a,(_listCount)
+	ld		l,a
 	ld		a,(_listRow)
 	inc		a
-	ld		(_listRow),a
+	cp		l
+	jr		nz,{+}
+
+	xor		a
+
++:	ld		(_listRow),a
 	call	_invertRow
 	ld		a,1
 	jp		AYFX._PLAY
